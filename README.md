@@ -24,11 +24,16 @@ El sistema permite registrar transacciones de tipo ingreso y egreso, calcular au
 
 ## Integrantes
 
-* Nombre 1
-* Nombre 2
-* Nombre 3
+* Nombre 1: Wilber Larris Carranza Campos - CC253652
+* Nombre 2: Giovanni Manuel Quijano Sosa  - QS242538
+* Nombre 3: Jehudi Neftali Aguilar Araujo - AA251259
+* Nombre 4: Fernando Antonio Abrego Chávez - AC253484
+* Nombre 5: SOPHIA MARCELA GUZMÁN AYALA - GA231577
 
-## Link Video
+
+
+## Link Video: 
+
 
 ## Link Host Netlify: 
 https://cheerful-piroshki-a36de9.netlify.app/
