@@ -1,22 +1,11 @@
 'use strict';
 
 const MESES_ES = [
-  'enero',
-  'febrero',
-  'marzo',
-  'abril',
-  'mayo',
-  'junio',
-  'julio',
-  'agosto',
-  'septiembre',
-  'octubre',
-  'noviembre',
-  'diciembre',
+  'enero','febrero','marzo','abril','mayo','junio',
+  'julio','agosto','septiembre','octubre','noviembre','diciembre'
 ];
 
 const transacciones = [];
-
 let siguienteId = 1;
 
 function $(id) {
@@ -31,69 +20,62 @@ function establecerMesActual() {
 }
 
 function parsearMonto(valor) {
-  if (valor === null || valor === undefined) return NaN;
   const s = String(valor).trim().replace(',', '.');
-  if (s === '') return NaN;
   return Number.parseFloat(s);
+}
+
+function validarTransaccion(tipo, descripcion, monto) {
+  if (!descripcion.trim()) {
+    return { ok: false, mensaje: 'La descripción no puede estar vacía.' };
+  }
+  if (Number.isNaN(monto)) {
+    return { ok: false, mensaje: 'El monto debe ser un número válido.' };
+  }
+  if (monto <= 0) {
+    return { ok: false, mensaje: 'El monto debe ser mayor que cero.' };
+  }
+  return { ok: true };
+}
+
+function mostrarError(msg) {
+  const el = $('formularioError');
+  el.textContent = msg;
+  el.hidden = false;
 }
 
 function ocultarError() {
   const el = $('formularioError');
   el.hidden = true;
-  el.textContent = '';
-}
-
-function mostrarError(mensaje) {
-  const el = $('formularioError');
-  el.textContent = mensaje;
-  el.hidden = false;
-}
-
-function validarTransaccion(tipo, descripcion, montoNum) {
-  const desc = descripcion.trim();
-  if (!desc) {
-    return { ok: false, mensaje: 'La descripción no puede estar vacía.' };
-  }
-  if (Number.isNaN(montoNum)) {
-    return { ok: false, mensaje: 'El monto debe ser un número válido.' };
-  }
-  if (montoNum <= 0) {
-    return { ok: false, mensaje: 'El monto debe ser mayor que cero.' };
-  }
-  if (tipo !== 'ingreso' && tipo !== 'egreso') {
-    return { ok: false, mensaje: 'Seleccione un tipo de transacción válido.' };
-  }
-  return { ok: true, mensaje: '' };
 }
 
 function totales() {
   let ingresos = 0;
   let egresos = 0;
-  for (let i = 0; i < transacciones.length; i++) {
-    const t = transacciones[i];
+
+  transacciones.forEach(t => {
     if (t.tipo === 'ingreso') ingresos += t.monto;
     else egresos += t.monto;
-  }
+  });
+
   return { ingresos, egresos };
 }
 
-function porcentajeGastosSobreIngresos(totalIngresos, totalEgresos) {
-  if (totalIngresos <= 0) return 0;
-  return (totalEgresos * 100) / totalIngresos;
+function porcentajeGastos(ingresos, egresos) {
+  if (ingresos === 0) return 0;
+  return (egresos * 100) / ingresos;
 }
 
-function formatearDisponible(valor) {
+function formatear(valor) {
   const signo = valor >= 0 ? '+' : '-';
-  const abs = Math.abs(valor);
-  return `${signo} ${abs.toFixed(2)}`;
+  return `${signo} ${Math.abs(valor).toFixed(2)}`;
 }
 
 function actualizarResumen() {
   const { ingresos, egresos } = totales();
   const disponible = ingresos - egresos;
-  const pct = porcentajeGastosSobreIngresos(ingresos, egresos);
+  const pct = porcentajeGastos(ingresos, egresos);
 
-  $('presupuestoTotal').textContent = formatearDisponible(disponible);
+  $('presupuestoTotal').textContent = formatear(disponible);
   $('totalIngresos').textContent = `+ ${ingresos.toFixed(2)}`;
   $('totalEgresos').textContent = `- ${egresos.toFixed(2)}`;
   $('porcentajeGastos').textContent = `${pct.toFixed(2)}%`;
@@ -103,10 +85,49 @@ function registrarTransaccion(tipo, descripcion, monto) {
   transacciones.push({
     id: siguienteId++,
     tipo,
-    descripcion: descripcion.trim(),
-    monto,
+    descripcion,
+    monto
   });
 }
+
+function renderizarTransacciones(tipoActivo = 'ingreso') {
+  const contenedor = $('listaTransacciones');
+  contenedor.innerHTML = '';
+
+  const { ingresos } = totales();
+
+  const lista = transacciones.filter(t => t.tipo === tipoActivo);
+
+  lista.forEach(t => {
+    const div = document.createElement('div');
+    div.style.display = 'flex';
+    div.style.justifyContent = 'space-between';
+    div.style.padding = '6px 0';
+
+    let html = `
+      <span>${t.descripcion}</span>
+      <span>${t.tipo === 'ingreso' ? '+' : '-'} ${t.monto.toFixed(2)}</span>
+    `;
+
+    if (t.tipo === 'egreso' && ingresos > 0) {
+      const pct = (t.monto * 100) / ingresos;
+
+      html = `
+        <span>${t.descripcion}</span>
+        <span>
+          - ${t.monto.toFixed(2)}
+          <span style="background:#166534;color:white;padding:2px 6px;border-radius:4px;font-size:12px;">
+            ${pct.toFixed(2)}%
+          </span>
+        </span>
+      `;
+    }
+
+    div.innerHTML = html;
+    contenedor.appendChild(div);
+  });
+}
+
 
 function limpiarFormulario() {
   $('descripcion').value = '';
@@ -118,27 +139,46 @@ function alAgregar() {
 
   const tipo = $('tipo').value;
   const descripcion = $('descripcion').value;
-  const montoNum = parsearMonto($('monto').value);
+  const monto = parsearMonto($('monto').value);
 
-  const v = validarTransaccion(tipo, descripcion, montoNum);
+  const v = validarTransaccion(tipo, descripcion, monto);
+
   if (!v.ok) {
     mostrarError(v.mensaje);
     return;
   }
 
-  registrarTransaccion(tipo, descripcion, montoNum);
+  registrarTransaccion(tipo, descripcion, monto);
+
   actualizarResumen();
+  renderizarTransacciones(tipo);
   limpiarFormulario();
 }
+
+
+function configurarTabs() {
+  $('tabIngresos').addEventListener('click', () => {
+    $('tabIngresos').classList.add('activo');
+    $('tabEgresos').classList.remove('activo');
+    renderizarTransacciones('ingreso');
+  });
+
+  $('tabEgresos').addEventListener('click', () => {
+    $('tabEgresos').classList.add('activo');
+    $('tabIngresos').classList.remove('activo');
+    renderizarTransacciones('egreso');
+  });
+}
+
 
 function init() {
   establecerMesActual();
   actualizarResumen();
+  configurarTabs();
+
   $('btnAgregar').addEventListener('click', alAgregar);
+
+  renderizarTransacciones();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
+document.addEventListener('DOMContentLoaded', init);
