@@ -4,8 +4,241 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-fondo-pagina: #f0fdf4;
+  --color-header: #dcfce7;
+  --color-primario: #166534;
+  --color-primario-oscuro: #14532d;
+  --color-texto: #1a2e1a;
+  --color-borde: #86efac;
+  --color-tab-inactivo: #bbf7d0;
+  --color-error: #b00020;
+  --radio: 6px;
+  --sombra-suave: 0 1px 3px rgba(22, 101, 52, 0.12);
+}
+
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.5;
+  color: var(--color-texto);
+  background: var(--color-fondo-pagina);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--color-primario);
+  color: #fff;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #fff;
+  box-shadow: var(--sombra-suave);
+}
+
+.header {
+  background: var(--color-header);
+  padding: 1.75rem 1.5rem 1.5rem;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0 0 0.75rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+#presupuestoTotal {
+  margin: 0 0 1.25rem;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.resumen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: min(900px, 100%);
+  margin: 0 auto 1rem;
+}
+
+.resumen .ingresos,
+.resumen .egresos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--radio);
+}
+
+.resumen .ingresos {
+  background: var(--color-primario);
+  color: #fff;
+}
+
+.resumen .egresos {
+  background: #fff;
+  color: var(--color-texto);
+  border: 2px solid var(--color-primario);
+}
+
+.porcentaje-linea {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.badge-porcentaje {
+  display: inline-block;
+  margin-left: 0.25rem;
+  padding: 0.15rem 0.6rem;
+  background: var(--color-primario);
+  color: #fff;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.contenido {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 280px;
+  border-top: 1px solid var(--color-borde);
+}
+
+@media (max-width: 720px) {
+  .contenido {
+    grid-template-columns: 1fr;
+  }
+}
+
+.formulario,
+.listado {
+  padding: 1.25rem 1.5rem;
+}
+
+.formulario {
+  border-right: 1px solid var(--color-borde);
+}
+
+@media (max-width: 720px) {
+  .formulario {
+    border-right: none;
+    border-bottom: 1px solid var(--color-borde);
+  }
+}
+
+.formulario h3 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.formulario select,
+.formulario input {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.65rem;
+  padding: 0.55rem 0.65rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  background: #fff;
+}
+
+.formulario select:focus,
+.formulario input:focus {
+  outline: 2px solid var(--color-primario);
+  outline-offset: 1px;
+}
+
+.formulario-error {
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.875rem;
+  color: var(--color-error);
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+  border-radius: var(--radio);
+}
+
+#btnAgregar {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.65rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-primario);
+  border: none;
+  border-radius: var(--radio);
+  cursor: pointer;
+}
+
+#btnAgregar:hover {
+  background: var(--color-primario-oscuro);
+  filter: none;
+}
+
+#btnAgregar:focus-visible {
+  outline: 2px solid var(--color-primario);
+  outline-offset: 2px;
+}
+
+.listado .tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1rem;
+}
+
+.listado .tabs button {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  border: 1px solid var(--color-borde);
+  cursor: pointer;
+  background: var(--color-tab-inactivo);
+  color: #fff;
+}
+
+.listado .tabs button:first-child {
+  border-radius: var(--radio) 0 0 var(--radio);
+}
+
+.listado .tabs button:last-child {
+  border-radius: 0 var(--radio) var(--radio) 0;
+  border-left: none;
+}
+
+.listado .tabs button.activo {
+  background: var(--color-primario);
+  color: #fff;
+}
+
+.listado .tabs button:not(.activo) {
+  color: var(--color-primario-oscuro);
+}
+
+#listaTransacciones {
+  min-height: 120px;
+  font-size: 0.95rem;
+  color: #3f6212;
 }
