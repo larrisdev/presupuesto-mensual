@@ -41,14 +41,12 @@ body {
 }
 
 .container {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
+  width: min(1400px, 96vw);
+  margin: 1rem auto;
   min-height: 100vh;
   background: #fff;
   box-shadow: var(--sombra-suave);
 }
-
 .header {
   background: var(--color-header);
   padding: 1.75rem 1.5rem 1.5rem;
@@ -72,7 +70,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-width: min(900px, 100%);
+  max-width: 520px;
   margin: 0 auto 1rem;
 }
 
@@ -113,7 +111,6 @@ body {
   font-weight: 600;
   font-size: 0.9rem;
 }
-
 .contenido {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -200,7 +197,6 @@ body {
   outline: 2px solid var(--color-primario);
   outline-offset: 2px;
 }
-
 .listado .tabs {
   display: flex;
   gap: 0;
