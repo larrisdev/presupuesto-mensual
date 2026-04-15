@@ -27,3 +27,8 @@ El sistema permite registrar transacciones de tipo ingreso y egreso, calcular au
 * Nombre 1
 * Nombre 2
 * Nombre 3
+
+## Link Video
+
+## Link Host Netlify: 
+https://cheerful-piroshki-a36de9.netlify.app/
