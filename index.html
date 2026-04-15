@@ -9,13 +9,13 @@
 </head>
 <body>
 
-    <!-- CONTENEDOR PRINCIPAL -->
+    <a class="skip-link" href="#contenido-principal">Ir al contenido</a>
+
     <div class="container">
 
-        <!-- HEADER SUPERIOR -->
         <header class="header">
 
-            <h1 id="mesActual">Presupuesto de Junio 2026</h1>
+            <h1 id="mesActual">Presupuesto de 2026</h1>
 
             <h2 id="presupuestoTotal">+ 0.00</h2>
 
@@ -33,20 +33,18 @@
 
             </div>
 
-            <p>Porcentaje de gastos: <span id="porcentajeGastos">0%</span></p>
+            <p class="porcentaje-linea">Porcentaje de gastos: <span id="porcentajeGastos" class="badge-porcentaje">0.00%</span></p>
 
         </header>
 
 
-        <!-- SECCIÓN INFERIOR -->
-        <main class="contenido">
+        <main id="contenido-principal" class="contenido">
 
-            <!-- FORMULARIO -->
-            <section class="formulario">
+            <section class="formulario" aria-labelledby="titulo-transaccion">
 
-                <h3>Transacción</h3>
+                <h3 id="titulo-transaccion">Transacción</h3>
 
-                <select id="tipo">
+                <select id="tipo" aria-label="Tipo de transacción">
                     <option value="ingreso">Ingreso</option>
                     <option value="egreso">Egreso</option>
                 </select>
@@ -54,36 +52,39 @@
                 <input 
                     type="text" 
                     id="descripcion" 
-                    placeholder="Descripción">
+                    placeholder="Descripción"
+                    autocomplete="off">
 
                 <input 
-                    type="number" 
+                    type="text" 
+                    inputmode="decimal" 
                     id="monto" 
-                    placeholder="Monto">
+                    placeholder="Monto"
+                    autocomplete="off">
 
-                <button id="btnAgregar">
+                <p id="formularioError" class="formulario-error" role="alert" hidden></p>
+
+                <button type="button" id="btnAgregar">
                     Agregar
                 </button>
 
             </section>
 
-
-            <!-- LISTADO -->
             <section class="listado">
 
-                <div class="tabs">
+                <div class="tabs" role="tablist" aria-label="Detalle por tipo">
 
-                    <button id="tabIngresos">
+                    <button type="button" id="tabIngresos" class="activo" role="tab" aria-selected="true">
                         Ingresos
                     </button>
 
-                    <button id="tabEgresos">
+                    <button type="button" id="tabEgresos" role="tab" aria-selected="false">
                         Egresos
                     </button>
 
                 </div>
 
-                <div id="listaTransacciones">
+                <div id="listaTransacciones" aria-live="polite">
 
                 </div>
 
@@ -94,7 +95,7 @@
     </div>
 
 
-    <script src="js/app.js"></script>
+    <script type="module" src="js/app.js"></script>
 
 </body>
 </html>
