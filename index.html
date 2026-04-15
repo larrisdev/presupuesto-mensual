@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presupuesto Mensual</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container">
+
+        <!-- HEADER SUPERIOR -->
+        <header class="header">
+
+            <h1 id="mesActual">Presupuesto de Junio 2026</h1>
+
+            <h2 id="presupuestoTotal">+ 0.00</h2>
+
+            <div class="resumen">
+
+                <div class="ingresos">
+                    <span>INGRESOS:</span>
+                    <span id="totalIngresos">+ 0.00</span>
+                </div>
+
+                <div class="egresos">
+                    <span>EGRESOS:</span>
+                    <span id="totalEgresos">- 0.00</span>
+                </div>
+
+            </div>
+
+            <p>Porcentaje de gastos: <span id="porcentajeGastos">0%</span></p>
+
+        </header>
+
+
+        <!-- SECCIÓN INFERIOR -->
+        <main class="contenido">
+
+            <!-- FORMULARIO -->
+            <section class="formulario">
+
+                <h3>Transacción</h3>
+
+                <select id="tipo">
+                    <option value="ingreso">Ingreso</option>
+                    <option value="egreso">Egreso</option>
+                </select>
+
+                <input 
+                    type="text" 
+                    id="descripcion" 
+                    placeholder="Descripción">
+
+                <input 
+                    type="number" 
+                    id="monto" 
+                    placeholder="Monto">
+
+                <button id="btnAgregar">
+                    Agregar
+                </button>
+
+            </section>
+
+
+            <!-- LISTADO -->
+            <section class="listado">
+
+                <div class="tabs">
+
+                    <button id="tabIngresos">
+                        Ingresos
+                    </button>
+
+                    <button id="tabEgresos">
+                        Egresos
+                    </button>
+
+                </div>
+
+                <div id="listaTransacciones">
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>
